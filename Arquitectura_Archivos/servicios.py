@@ -77,19 +77,36 @@ class Inventario:
         print(f"El producto '{producto_encontrado['nombre']}' ha sido eliminado con éxito.")
 
     def calcular_estadistica(self):
-        # CÁLCULO DE ESTADÍSTICAS:
-        # Acumula el valor monetario (precio * cantidad) y el conteo total de unidades.
-        total_valor = 0
-        total_productos = 0
-        
         if not self.productos:
             print("No hay productos para calcular estadísticas.")
             return
-            
+
+        # Definimos la lambda para el subtotal (precio * cantidad)
+        calcular_subtotal = lambda p: p["precio"] * p["cantidad"]
+
+        # Inicializamos con el primer producto para comparar
+        p_mas_caro = self.productos[0]
+        p_mayor_stock = self.productos[0]
+        
+        total_valor = 0
+        total_unidades = 0
+
         for p in self.productos:
-            total_valor += p["precio"] * p["cantidad"]
-            total_productos += p["cantidad"]
+            # Totales
+            total_valor += calcular_subtotal(p)
+            total_unidades += p["cantidad"]
             
-        print("\n--- ESTADÍSTICAS DEL INVENTARIO ---")
-        print(f"Valor total en mercancía: ${total_valor}")
-        print(f"Total de unidades en stock: {total_productos}")
+            # Logica para el mas caro
+            if p["precio"] > p_mas_caro["precio"]:
+                p_mas_caro = p
+                
+            # Logica para el mayor stock
+            if p["cantidad"] > p_mayor_stock["cantidad"]:
+                p_mayor_stock = p
+
+        print("ESTADISTICAS DEL INVENTARIO")
+        print(f"Valor total en mercancia: ${total_valor:,.2f}")
+        print(f"Total de unidades en stock: {total_unidades}")
+        print(f"Producto mas caro: {p_mas_caro['nombre']} (${p_mas_caro['precio']})")
+        print(f"Mayor existencia: {p_mayor_stock['nombre']} ({p_mayor_stock['cantidad']} unidades)")
+
