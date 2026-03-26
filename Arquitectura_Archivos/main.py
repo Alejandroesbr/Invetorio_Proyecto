@@ -1,6 +1,6 @@
 # --- DOCUMENTACIÓN Y ESTRUCTURA ---
 from servicios import Inventario
-import archivos
+from archivos import GestorInventario
 
 # Función de validación 
 def leer_numero(mensaje, tipo=int):
@@ -12,6 +12,8 @@ def leer_numero(mensaje, tipo=int):
 
 def ejecutarMenu():
     mi_inventario = Inventario()
+    gestor = GestorInventario()
+    ruta_archivo = "Arquitectura_Archivos/inventario.csv"
 
     # Bucle while para mantener el programa activo 
     while True: 
@@ -22,8 +24,8 @@ def ejecutarMenu():
         print("4. Actualizar inventario")
         print("5. Mostrar estadísticas")
         print("6. Eliminar un producto")
-        print("7. Cargar CSV")
-        print("8. Guardar CSV")
+        print("7. Guardar CSV")
+        print("8. Cargar CSV")
         print("9. Salir")
 
         opcion = input("Ingrese su elección: ")
@@ -58,14 +60,17 @@ def ejecutarMenu():
                 mi_inventario.eliminar_producto(nombre_borrar)
 
             case "7":
-                datos = archivos.cargar_csv_completo()
-                if datos:
-                    mi_inventario.productos = datos 
-                    print("Carga exitosa.")
+                # Sincronizamos el inventario del gestor antes de guardar
+                gestor.inventario = mi_inventario.productos 
+                gestor.guardar_csv(ruta_archivo)
 
             case "8":
-                archivos.guardar_csv_completo(mi_inventario.productos)
-
+                # Usamos gestionar_carga para aprovechar la lógica de fusión/sobrescribir
+                # Pasamos el inventario actual para que el gestor lo actualice
+                gestor.inventario = mi_inventario.productos
+                gestor.gestionar_carga(ruta_archivo)
+                # Actualizamos la lista original con el resultado del gestor
+                mi_inventario.productos = gestor.inventario 
 
             case "9":
                 print("Saliendo del sistema...")
@@ -76,6 +81,6 @@ def ejecutarMenu():
                 print("Error: Opción no válida, intenta de nuevo.")
 
 # Ejecución del programa
-ejecutarMenu()
+ejecutarMenu() 
 
 
