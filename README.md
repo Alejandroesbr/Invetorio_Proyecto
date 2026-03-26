@@ -83,21 +83,6 @@ inventario/
 
 ---
 
-## ▶️ Cómo ejecutar el proyecto
-
-1. Clona el repositorio:
-```bash
-git clone <url-del-repo>
-
-	2.	Entra al proyecto:
-
-cd inventario
-
-	3.	Ejecuta el programa:
-
-python main.py
-
-
 ⸻
 
 ⚠️ Validaciones implementadas
@@ -119,3 +104,5 @@ python main.py
 	•	Reportes avanzados
 
 ⸻
+
+python 3.X
