@@ -11,11 +11,8 @@ class GestorInventario:
             
             with open(ruta, 'w', newline='', encoding='utf-8') as archivo:
                 writer = csv.DictWriter(archivo,fieldnames=["nombre","precio","cantidad"])
-                writer.writehead()
-                writer.writerow(self.inventario)
-
-                for producto in self.inventario:
-                    writer.writerow([producto['nombre'], producto['precio'], producto['cantidad']])
+                writer.writeheader()
+                writer.writerows(self.inventario)
 
             print(f"Inventario guardado en {ruta}")
         except PermissionError:

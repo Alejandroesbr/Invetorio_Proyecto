@@ -21,7 +21,7 @@ class Inventario:
         else:
             for i, p in enumerate(self.productos): 
                 # Imprime en el formato solicitado: Producto | Precio | Cantidad
-                print(f"{i}. Producto: {p['nombre']} | Precio: {p['precio']} | Cantidad: {p['cantidad']}")
+                print(f"{i}. Producto: {p['nombre']} | Precio: ${p['precio']} | Cantidad: {p['cantidad']}")
 
     def buscar_producto(self, nombre):
         # BÚSQUEDA DE PRODUCTOS:
