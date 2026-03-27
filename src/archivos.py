@@ -1,24 +1,22 @@
 import csv
-
 class GestorInventario:
-    def __init__(self):
-        self.inventario = []
+    def __init__(self, inventario):
+        self.inventario = inventario
 
-    def guardar_csv(self, ruta, incluir_header=True):
+    def guardar_csv(self, ruta,):
         try:
             if not self.inventario:
                 print("Inventario vacío.")
                 return
             
-            with open(ruta, 'w', newline='', encoding='utf-8') as csvfile:
-                writer = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-                
-                if incluir_header:
-                    writer.writerow(['nombre', 'precio', 'cantidad'])
+            with open(ruta, 'w', newline='', encoding='utf-8') as archivo:
+                writer = csv.DictWriter(archivo,fieldnames=["nombre","precio","cantidad"])
+                writer.writehead()
+                writer.writerow(self.inventario)
 
                 for producto in self.inventario:
                     writer.writerow([producto['nombre'], producto['precio'], producto['cantidad']])
-            
+
             print(f"Inventario guardado en {ruta}")
         except PermissionError:
             print("Error: Archivo bloqueado o sin permisos.")
@@ -28,8 +26,8 @@ class GestorInventario:
         errores = 0
         
         try:
-            with open(ruta, mode='r', encoding='utf-8') as csvfile:
-                reader = csv.DictReader(csvfile)
+            with open(ruta, mode='r', encoding='utf-8') as archivo:
+                reader = csv.DictReader(archivo)
                 
                 # Validar encabezados
                 if reader.fieldnames != ['nombre', 'precio', 'cantidad']:

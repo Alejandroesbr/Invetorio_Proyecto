@@ -12,8 +12,9 @@ def leer_numero(mensaje, tipo=int):
 
 def ejecutarMenu():
     mi_inventario = Inventario()
-    gestor = GestorInventario()
-    ruta_archivo = "Arquitectura_Archivos/inventario.csv"
+    gestor = GestorInventario(mi_inventario.productos)
+    ruta_archivo = "Invetorio_Proyecto/src/inventario.csv"
+
 
     # Bucle while para mantener el programa activo 
     while True: 
